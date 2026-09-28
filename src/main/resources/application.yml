@@ -1,0 +1,38 @@
+server:
+  port: 9090
+
+spring:
+  application:
+    name: pg-mock
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
+
+springdoc:
+  paths-to-match: /pg/**
+  swagger-ui:
+    path: /swagger-ui.html
+
+# 가상 결제대행사 동작 설정. 결과 유형별 확률(weights, 합계 100)과 지연 시간.
+pgmock:
+  weights:
+    success: 55
+    fail: 15
+    error: 10
+    slow: 10
+    slow-but-processed: 10
+  delay:
+    normal-min-ms: 100
+    normal-max-ms: 1500
+    slow-ms: 12000
+  random-seed:
+
+# 평가 전용 API(/admin/*) 활성화 여부. 기본 비활성. 수강생용 compose.yaml에는 절대 true로 두지 않는다.
+admin:
+  enabled: false
